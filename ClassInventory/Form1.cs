@@ -12,7 +12,8 @@ namespace ClassInventory
 {
     public partial class Form1 : Form
     {
-        // TODO - create a List to store all inventory objects
+        // create a List to store all inventory objects
+        List<Class> inventory = new List<Class>();
 
         public Form1()
         {
@@ -21,13 +22,26 @@ namespace ClassInventory
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            // TODO - gather all information from screen 
+            // gather all information from screen 
+            string name = c.Text;
+            int age = Convert.ToInt16(ageInput.Text);
+            string team = teamInput.Text;
+            string position = positionInput.Text;
 
-            // TODO - create object with gathered information
+            // create object with gathered information
+            Class newClass = new Class(name, age, team, position);
 
-            // TODO - add object to global list
+            // add object to global list
+            inventory.Add(newClass);
 
-            // TODO - display message to indicate addition made
+            // display message to indicate addition made
+            outputLabel.Text = "Student has been added";
+
+            // clear textboxes
+            c.Text = "";
+            ageInput.Text = "";
+            teamInput.Text = "";
+            positionInput.Text = "";
         }
 
         private void removeButton_Click(object sender, EventArgs e)
@@ -36,9 +50,18 @@ namespace ClassInventory
             // Lambda Expressions.
             //---------------------------
 
-            // TODO - if object is in list remove it
+            // if object is in list remove it
+            string removePlayer = removeInput.Text;
+            int index = inventory.FindIndex(n => n.name == removePlayer);
+            
+            if (index >= 0)
+            {
+                inventory.RemoveAt(index);
+            }
 
-            // TODO - display message to indicate deletion made
+            // display message to indicate deletion made
+            outputLabel.Text = "";
+            outputLabel.Text = "Student has been deleted";
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -47,17 +70,39 @@ namespace ClassInventory
             // Lambda Expressions.
             //---------------------------
 
-            // TODO - if object entered exists in list show it
-            // TODO - else show not found message
+            // if object entered exists in list show it
+            string showPlayer = textBox1.Text;
+            int index = inventory.FindIndex(n => n.name == showPlayer);
+
+            outputLabel.Text = "";
+
+            if (index >= 0)
+            {
+                outputLabel.Text += inventory[index].name + "\n";
+                outputLabel.Text += inventory[index].age + "\n";
+                outputLabel.Text += inventory[index].team + "\n";
+                outputLabel.Text += inventory[index].position + "\n\n";
+            }
+            else
+            {
+                // else show not found message
+                outputLabel.Text = "Student not found";
+            }
         }
 
         private void showButton_Click(object sender, EventArgs e)
         {
-            // This is to be completed in Part II. You will use 
-            // Lambda Expressions.
-            //---------------------------
+            // clear label
+            outputLabel.Text = "";
 
-            // TODO - show all objects in list
+            // show all objects in list, use foreach loop
+            foreach (Class c in inventory)
+            {
+                outputLabel.Text += c.name + "\n";
+                outputLabel.Text += c.age + "\n";
+                outputLabel.Text += c.team + "\n";
+                outputLabel.Text += c.position + "\n\n";
+            }
         }
     }
 }
